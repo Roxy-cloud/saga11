@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\StudentSignature;
+use App\Models\Student;
+use App\Models\Signature;
+use App\Models\Crp;
+use App\Models\Seccion;
 use Illuminate\Http\Request;
 
 /**
@@ -32,7 +36,10 @@ class StudentSignatureController extends Controller
     public function create()
     {
         $studentSignature = new StudentSignature();
-        return view('student-signatures.create', compact('studentSignature'));
+        $students=Student::pluck('cedula','apellidos','nombres','id');
+        $signatures=Signature::pluck('nombre','id');
+        $crps=Crp::pluck('nombre_crp','id');
+        return view('student-signatures.create', compact('studentSignature','students','crps','signatures'));
     }
 
     /**
@@ -73,8 +80,11 @@ class StudentSignatureController extends Controller
     public function edit($id)
     {
         $studentSignature = StudentSignature::find($id);
-
-        return view('student_signatures.edit', compact('studentSignature'));
+        $students=Student::pluck('cedula','apellidos','nombres','id');
+        $signatures=Signature::pluck('nombre','id');
+        $crps=Crp::pluck('nombre_crp','id');
+        return view('student-signatures.edit', compact('studentSignature','students','crps','signatures'));
+    
     }
 
     /**
