@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Student;
+use App\Models\Signature;
+use App\Models\Seccion;
+use App\Models\Crp;
+use App\Models\Anioescolar;
 use Illuminate\Http\Request;
 
 /**
@@ -32,7 +36,9 @@ class StudentController extends Controller
     public function create()
     {
         $student = new Student();
-        return view('students.create', compact('student'));
+        $seccions=Seccion::pluck('nombre_grado','id');
+        $crps=Crp::pluck('nombre_crp','id');
+        return view('students.create', compact('student','seccions','crps'));
     }
 
     /**
@@ -73,8 +79,9 @@ class StudentController extends Controller
     public function edit($id)
     {
         $student = Student::find($id);
-
-        return view('students.edit', compact('student'));
+        $seccions=Seccion::pluck('nombre_grado','id');
+        $crps=Crp::pluck('nombre_crp','id');
+        return view('students.edit', compact('student','seccions','crps'));
     }
 
     /**
