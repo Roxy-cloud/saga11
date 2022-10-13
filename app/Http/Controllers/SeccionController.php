@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Seccion;
+use App\Models\Anioescolar;
+use App\Models\Signature;
+use App\Models\Student;
 use Illuminate\Http\Request;
 
 /**
@@ -19,7 +22,7 @@ class SeccionController extends Controller
     public function index()
     {
         $seccions = Seccion::paginate();
-
+       
         return view('seccion.index', compact('seccions'))
             ->with('i', (request()->input('page', 1) - 1) * $seccions->perPage());
     }
@@ -32,7 +35,8 @@ class SeccionController extends Controller
     public function create()
     {
         $seccion = new Seccion();
-        return view('seccion.create', compact('seccion'));
+        $anioescolars=Anioescolar::pluck('nombreanioescolar','id');
+        return view('seccion.create', compact('seccion','anioescolars'));
     }
 
     /**
@@ -48,7 +52,7 @@ class SeccionController extends Controller
         $seccion = Seccion::create($request->all());
 
         return redirect()->route('seccions.index')
-            ->with('success', 'Seccion created successfully.');
+            ->with('success', 'Una nueva sección ha sido creada.');
     }
 
     /**
@@ -73,8 +77,8 @@ class SeccionController extends Controller
     public function edit($id)
     {
         $seccion = Seccion::find($id);
-
-        return view('seccion.edit', compact('seccion'));
+        $anioescolars=Anioescolar::pluck('nombreanioescolar','id');
+        return view('seccion.edit', compact('seccion','anioescolars'));
     }
 
     /**
@@ -91,7 +95,7 @@ class SeccionController extends Controller
         $seccion->update($request->all());
 
         return redirect()->route('seccions.index')
-            ->with('success', 'Seccion updated successfully');
+            ->with('success', 'Los datos han sido modificados');
     }
 
     /**
@@ -104,6 +108,6 @@ class SeccionController extends Controller
         $seccion = Seccion::find($id)->delete();
 
         return redirect()->route('seccions.index')
-            ->with('success', 'Seccion deleted successfully');
+            ->with('success', 'la Sección fue eliminada');
     }
 }
