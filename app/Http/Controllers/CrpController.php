@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Crp;
+use App\Models\User;
+use App\Models\Student;
+use App\Models\Signature;
+use App\Models\Seccion;
+use App\Models\Anioescolar;
 use Illuminate\Http\Request;
 
 /**
@@ -32,7 +37,9 @@ class CrpController extends Controller
     public function create()
     {
         $crp = new Crp();
-        return view('crps.create', compact('crp'));
+        $users=User::pluck('name','id');
+        $anioescolars=Anioescolar::pluck('nombreanioescolar','id');
+        return view('crps.create', compact('crp','users','anioescolars'));
     }
 
     /**
@@ -73,8 +80,9 @@ class CrpController extends Controller
     public function edit($id)
     {
         $crp = Crp::find($id);
-
-        return view('crps.edit', compact('crp'));
+        $anioescolars=Anioescolar::pluck('nombreanioescolar','id');
+        $users=User::pluck('name','id');
+        return view('crps.edit', compact('crp','users','anioescolars'));
     }
 
     /**
@@ -107,3 +115,4 @@ class CrpController extends Controller
             ->with('success', 'Grupo Eliminado');
     }
 }
+
