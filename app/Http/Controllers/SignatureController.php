@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Student;
 use App\Models\Signature;
+use App\Models\Seccion;
+use App\Models\User;
+use App\Models\Crp;
+use App\Models\Anioescolar;
 use Illuminate\Http\Request;
 
 /**
@@ -20,7 +25,7 @@ class SignatureController extends Controller
     {
         $signatures = Signature::paginate();
 
-        return view('signature.index', compact('signatures'))
+        return view('signatures.index', compact('signatures'))
             ->with('i', (request()->input('page', 1) - 1) * $signatures->perPage());
     }
 
@@ -32,7 +37,9 @@ class SignatureController extends Controller
     public function create()
     {
         $signature = new Signature();
-        return view('signature.create', compact('signature'));
+        $seccions=Seccion::pluck('nombre_grado','id');
+        $users=User::pluck('name','id');
+        return view('signatures.create', compact('signature','seccions','users'));
     }
 
     /**
@@ -48,7 +55,7 @@ class SignatureController extends Controller
         $signature = Signature::create($request->all());
 
         return redirect()->route('signatures.index')
-            ->with('success', 'Signature created successfully.');
+            ->with('success', 'Asignatura añadida.');
     }
 
     /**
@@ -73,8 +80,8 @@ class SignatureController extends Controller
     public function edit($id)
     {
         $signature = Signature::find($id);
-
-        return view('signature.edit', compact('signature'));
+        $seccions=Seccion::pluck('nombre_grado','id');
+        return view('signature.edit', compact('signature','seccions'));
     }
 
     /**
@@ -91,7 +98,7 @@ class SignatureController extends Controller
         $signature->update($request->all());
 
         return redirect()->route('signatures.index')
-            ->with('success', 'Signature updated successfully');
+            ->with('success', 'Los datos de la Asignatura fueron actualizados');
     }
 
     /**
@@ -104,6 +111,6 @@ class SignatureController extends Controller
         $signature = Signature::find($id)->delete();
 
         return redirect()->route('signatures.index')
-            ->with('success', 'Signature deleted successfully');
+            ->with('success', 'La Asignatura seleccionada fue eliminada');
     }
 }
