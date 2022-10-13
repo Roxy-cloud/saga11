@@ -51,6 +51,10 @@ class StudentSignature extends Model
     {
         return $this->hasOne('App\Models\Student', 'id', 'student_id');
     }
+    public function crp()
+    {
+        return $this->hasOne('App\Models\crp', 'id', 'crp_id');
+    }
     
 
 }
