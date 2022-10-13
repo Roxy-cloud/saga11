@@ -48,7 +48,7 @@ class Student extends Model
      *
      * @var array
      */
-    protected $fillable = ['cedula','apellidos','nombres','lugarnac','estadonac','fechanac','sexo','seccion_id','crp_id'];
+    protected $fillable = ['cedula','apellidos','nombres','lugarnac','estadonac','fechanac','sexo','seccion_id'];
 
 
     /**
